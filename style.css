@@ -1,6 +1,14 @@
 /* ===== RESET & BASE ===== */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+/* Tat tap highlight tren iOS/Android */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Giam delay 300ms khi tap cho tat ca element tuong tac */
+a, button, [role="button"], input, select, textarea {
+  touch-action: manipulation;
+}
+
 :root {
   --gold:    #c9a84c;
   --gold-lt: #e8c97a;
@@ -101,7 +109,11 @@ ul { list-style: none; }
   align-items: center;
   justify-content: space-between;
   padding: 20px 40px;
-  transition: var(--transition);
+  transition: padding var(--transition), background var(--transition), box-shadow var(--transition), transform 0.35s ease;
+}
+
+.nav--hidden {
+  transform: translateY(-100%);
 }
 
 .nav.scrolled {
@@ -143,6 +155,12 @@ ul { list-style: none; }
 
 .nav__menu a:hover { color: var(--gold); }
 .nav__menu a:hover::after { width: 100%; }
+
+/* Chi ap dung hover tren thiet bi co chuot thuc su */
+@media (hover: none) {
+  .nav__menu a:hover { color: inherit; }
+  .nav__menu a:hover::after { width: 0; }
+}
 
 .nav__hamburger {
   display: none;
@@ -666,24 +684,100 @@ ul { list-style: none; }
   100% { background-position: 200% center; }
 }
 
+/* ===== NO HOVER (touch devices) ===== */
+@media (hover: none) {
+  .card:hover { transform: none; box-shadow: none; border-color: rgba(201,168,76,0.1); }
+  .card:hover .card__img { transform: none; }
+  .btn--primary:hover { transform: none; box-shadow: none; background: var(--gold); border-color: var(--gold); }
+  .btn--ghost:hover { transform: none; border-color: rgba(255,255,255,0.4); color: var(--white); }
+  .card__link:hover { color: var(--gold); }
+  .footer__links a:hover { color: var(--text-muted); }
+  .weather__tab:hover { border-color: rgba(201,168,76,0.2); color: var(--text-muted); }
+  .back-to-top:hover { transform: none; box-shadow: 0 4px 16px rgba(201,168,76,0.4); background: var(--gold); }
+  .cookie-btn--accept:hover { background: var(--gold); }
+  .cookie-btn--decline:hover { border-color: rgba(255,255,255,0.15); color: var(--text-muted); }
+
+  /* Dung :active thay the hover khi tap tren mobile */
+  .map-pin:active,
+  .card:active,
+  .weather__tab:active,
+  .footer__links a:active,
+  .card__link:active,
+  .nav__menu a:active {
+    opacity: 0.75;
+    transition: opacity 0.1s ease;
+  }
+
+  .map-pin:active {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.08);
+    color: var(--gold);
+    opacity: 1;
+  }
+
+  .weather__tab:active {
+    border-color: var(--gold);
+    color: var(--gold);
+    opacity: 1;
+  }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .nav { padding: 16px 24px; }
   .nav.scrolled { padding: 12px 24px; }
+
   .nav__menu {
-    display: none;
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(15,14,11,0.97);
+    background: rgba(15,14,11,0.98);
+    backdrop-filter: blur(16px);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 36px;
     z-index: 99;
+    /* Ẩn bằng opacity + pointer-events thay vì display:none → có transition */
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: flex;
   }
-  .nav__menu.open { display: flex; }
-  .nav__menu a { font-size: 1.3rem; color: var(--text); }
-  .nav__hamburger { display: flex; z-index: 101; }
+
+  .nav__menu.open {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  .nav__menu li {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .nav__menu.open li:nth-child(1) { opacity:1; transform:none; transition-delay: 0.05s; }
+  .nav__menu.open li:nth-child(2) { opacity:1; transform:none; transition-delay: 0.10s; }
+  .nav__menu.open li:nth-child(3) { opacity:1; transform:none; transition-delay: 0.15s; }
+  .nav__menu.open li:nth-child(4) { opacity:1; transform:none; transition-delay: 0.20s; }
+  .nav__menu.open li:nth-child(5) { opacity:1; transform:none; transition-delay: 0.25s; }
+
+  .nav__menu a {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.05em;
+  }
+
+  .nav__menu a::after { display: none; }
+  .nav__menu a:hover { color: var(--gold); }
+
+  .nav__hamburger {
+    display: flex;
+    z-index: 101;
+    position: relative;
+  }
 
   .stats__grid { grid-template-columns: repeat(2, 1fr); }
 
@@ -702,13 +796,61 @@ ul { list-style: none; }
 }
 
 @media (max-width: 600px) {
+  /* === GENERAL === */
+  .container { padding: 0 16px; }
+  .section-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+
+  /* === STATS === */
   .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .highlights__grid { grid-template-columns: 1fr; }
-  .card--featured { grid-column: auto; }
-  .footer__grid { grid-template-columns: 1fr; }
-  .hero__title { font-size: clamp(2.5rem, 10vw, 4rem); }
-  .story__step { flex-direction: column; gap: 16px; }
+  .stats__item strong { font-size: 1.5rem; }
+
+  /* === STORY === */
+  .story { padding: 60px 0; }
+  .story__step { flex-direction: column; gap: 12px; }
   .story__timeline::before { display: none; }
+  .story__step-body { padding-top: 0; }
+
+  /* === HIGHLIGHTS === */
+  .highlights { padding: 60px 0; }
+  .highlights__grid { grid-template-columns: 1fr; }
+  .card--featured { grid-column: auto; grid-template-columns: 1fr; }
+  .card--featured .card__img { height: 200px; }
+
+  /* === CULTURE === */
+  .culture { padding: 60px 0; }
+  .culture__img-stack { height: 280px; }
+  .culture__img--1 { width: 85%; height: 200px; }
+  .culture__img--2 { width: 65%; height: 160px; }
+
+  /* === MAP === */
+  .map-section { padding: 60px 0; }
+  .map-pin { flex: 1 1 100%; }
+  #leaflet-map { height: 260px; }
+
+  /* === WEATHER === */
+  .weather { padding: 60px 0; }
+  .weather__tabs { gap: 8px; }
+  .weather__tab { padding: 8px 14px; font-size: 0.8rem; }
+  .weather__panel { flex-direction: column; align-items: center; text-align: center; padding: 24px 16px; gap: 16px; }
+  .weather__icon { font-size: 3rem; }
+  .weather__tips { text-align: left; }
+
+  /* === CTA === */
+  .cta-section { padding: 80px 16px; }
+
+  /* === FOOTER === */
+  .footer__grid { grid-template-columns: 1fr; gap: 32px; }
+  .footer__brand { grid-column: auto; }
+
+  /* === HERO === */
+  .hero__title { font-size: clamp(2.2rem, 9vw, 3.5rem); }
+  .hero__sub { font-size: 0.95rem; }
+  .hero__actions { flex-direction: column; align-items: center; }
+  .hero__scroll-hint { display: none; }
+
+  /* === BACK TO TOP & COOKIE === */
+  .back-to-top { bottom: 80px; right: 16px; width: 42px; height: 42px; font-size: 1rem; }
+  .cookie-banner__inner { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
 /* ===== PRELOADER ===== */
