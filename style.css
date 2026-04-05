@@ -50,7 +50,28 @@ ul { list-style: none; }
   text-transform: uppercase;
   color: var(--gold);
   margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
 }
+
+.section-label::before,
+.section-label::after {
+  content: '';
+  flex: 1;
+  max-width: 60px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.5;
+}
+
+/* Canh trai cho section-label trong culture */
+.culture__text .section-label {
+  justify-content: flex-start;
+}
+.culture__text .section-label::before { display: none; }
+.culture__text .section-label::after { max-width: 40px; }
 
 .section-title {
   font-family: 'Playfair Display', serif;
@@ -59,6 +80,17 @@ ul { list-style: none; }
   line-height: 1.2;
   color: var(--white);
   margin-bottom: 24px;
+}
+
+/* Gradient vàng cho dòng thứ 2 của section-title trên mobile */
+@media (max-width: 600px) {
+  .section-title span,
+  .section-title br + * {
+    background: linear-gradient(90deg, var(--gold), var(--gold-lt));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 }
 
 /* ===== BUTTONS ===== */
@@ -156,10 +188,11 @@ ul { list-style: none; }
 .nav__menu a:hover { color: var(--gold); }
 .nav__menu a:hover::after { width: 100%; }
 
-/* Chi ap dung hover tren thiet bi co chuot thuc su */
+/* Mobile: tap = vàng, không dính */
 @media (hover: none) {
-  .nav__menu a:hover { color: inherit; }
+  .nav__menu a:hover { color: var(--text-muted); }
   .nav__menu a:hover::after { width: 0; }
+  .nav__menu a:active { color: var(--gold); }
 }
 
 .nav__hamburger {
@@ -200,9 +233,9 @@ ul { list-style: none; }
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(15,14,11,0.5) 0%,
-    rgba(15,14,11,0.65) 50%,
-    rgba(15,14,11,0.9) 100%
+    rgba(15,14,11,0.3) 0%,
+    rgba(15,14,11,0.55) 50%,
+    rgba(15,14,11,0.92) 100%
   );
 }
 
@@ -307,6 +340,22 @@ ul { list-style: none; }
   font-size: 0.85rem;
   color: var(--text-muted);
   letter-spacing: 0.05em;
+}
+
+.stats__item {
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(201,168,76,0.25);
+  position: relative;
+}
+
+.stats__item::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 50%;
+  transform: translateX(-50%);
+  width: 32px; height: 2px;
+  background: var(--gold);
+  border-radius: 99px;
 }
 
 /* ===== STORY ===== */
@@ -642,17 +691,18 @@ ul { list-style: none; }
   transition: opacity 0.7s ease, transform 0.7s ease;
 }
 
-[data-reveal="up"]    { transform: translateY(50px); }
-[data-reveal="down"]  { transform: translateY(-50px); }
-[data-reveal="left"]  { transform: translateX(-60px); }
-[data-reveal="right"] { transform: translateX(60px); }
+[data-reveal="up"]    { transform: translateY(50px) scale(0.97); }
+[data-reveal="down"]  { transform: translateY(-50px) scale(0.97); }
+[data-reveal="left"]  { transform: translateX(-60px) scale(0.97); }
+[data-reveal="right"] { transform: translateX(60px) scale(0.97); }
 [data-reveal="zoom"]  { transform: scale(0.85); }
 [data-reveal="flip"]  { transform: perspective(600px) rotateX(20deg); transform-origin: top; }
 
-/* Visible state — khi scroll đến */
+/* Visible state */
 [data-reveal].revealed {
   opacity: 1;
   transform: none;
+}
 }
 
 /* Stagger delay cho các phần tử con */
@@ -771,7 +821,7 @@ ul { list-style: none; }
   }
 
   .nav__menu a::after { display: none; }
-  .nav__menu a:hover { color: var(--gold); }
+  .nav__menu a:active { color: var(--gold); }
 
   .nav__hamburger {
     display: flex;
@@ -1028,6 +1078,7 @@ ul { list-style: none; }
   background: var(--gold);
   border-color: var(--gold);
   color: var(--dark);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.35);
 }
 
 .weather__panels { position: relative; }
@@ -1111,6 +1162,12 @@ ul { list-style: none; }
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
+  animation: bttPulse 2.5s ease 1s infinite;
+}
+
+@keyframes bttPulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(201,168,76,0.4); }
+  50%       { box-shadow: 0 4px 28px rgba(201,168,76,0.75), 0 0 0 8px rgba(201,168,76,0.1); }
 }
 
 .back-to-top:hover {
@@ -1190,4 +1247,30 @@ ul { list-style: none; }
   .weather__panel { flex-direction: column; align-items: center; text-align: center; }
   .back-to-top { bottom: 80px; right: 20px; }
   .cookie-banner__inner { flex-direction: column; align-items: flex-start; }
+}
+
+/* ===== SECTION DIVIDERS ===== */
+.stats,
+.story,
+.highlights,
+.culture,
+.map-section,
+.weather,
+.cta-section {
+  position: relative;
+}
+
+.stats::after,
+.story::after,
+.highlights::after,
+.culture::after,
+.map-section::after,
+.weather::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
 }
