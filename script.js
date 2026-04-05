@@ -1,29 +1,74 @@
-// ===== NAV: scroll effect + hamburger =====
+// ===== NAV: scroll effect + auto hide =====
 const navbar = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
+let lastScrollY = 0;
+
 window.addEventListener('scroll', () => {
-  navbar.classList.toggle('scrolled', window.scrollY > 60);
+  const currentY = window.scrollY;
+
+  // Luon hien o trang dau
+  if (currentY < 80) {
+    navbar.classList.remove('scrolled', 'nav--hidden');
+    lastScrollY = currentY;
+    return;
+  }
+
+  navbar.classList.add('scrolled');
+
+  if (currentY > lastScrollY + 8) {
+    // Scroll xuong -> an navbar (tru khi menu dang mo)
+    if (!navMenu.classList.contains('open')) {
+      navbar.classList.add('nav--hidden');
+    }
+  } else if (currentY < lastScrollY - 8) {
+    // Scroll len -> hien navbar
+    navbar.classList.remove('nav--hidden');
+  }
+
+  lastScrollY = currentY;
 });
+
+let scrollYBeforeMenu = 0;
+
+function openMenu() {
+  scrollYBeforeMenu = window.scrollY;
+  hamburger.classList.add('active');
+  navMenu.classList.add('open');
+  // Khoa scroll, giu nguyen vi tri trang
+  document.body.style.overflow = 'hidden';
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollYBeforeMenu}px`;
+  document.body.style.width = '100%';
+}
+
+function closeMenu() {
+  hamburger.classList.remove('active');
+  navMenu.classList.remove('open');
+  // Restore vi tri truoc khi mo menu
+  document.body.style.overflow = '';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo({ top: scrollYBeforeMenu, behavior: 'instant' });
+}
 
 hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('active');
-  navMenu.classList.toggle('open');
-  document.body.style.overflow = navMenu.classList.contains('open') ? 'hidden' : '';
+  navMenu.classList.contains('open') ? closeMenu() : openMenu();
 });
 
-// ===== SMOOTH SCROLL — ẩn hash khỏi URL =====
+// ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
     e.preventDefault();
     const target = document.querySelector(link.getAttribute('href'));
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      // Đóng mobile menu nếu đang mở
-      hamburger.classList.remove('active');
-      navMenu.classList.remove('open');
-      document.body.style.overflow = '';
+      closeMenu();
+      // Doi body restore xong roi moi scroll
+      requestAnimationFrame(() => {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     }
   });
 });
@@ -35,9 +80,6 @@ const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('revealed');
-    } else {
-      // Reset khi ra khỏi viewport → chạy lại lần sau
-      entry.target.classList.remove('revealed');
     }
   });
 }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
@@ -65,17 +107,13 @@ sections.forEach(s => sectionObserver.observe(s));
 
 // ===== STATS COUNTER ANIMATION =====
 const statsItems = document.querySelectorAll('.stats__item strong');
-
-// Lưu giá trị gốc để có thể reset và chạy lại
 statsItems.forEach(el => el.dataset.original = el.textContent);
 
 const countObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       animateCount(entry.target);
-    } else {
-      // Reset về 0 khi ra khỏi viewport
-      entry.target.textContent = '0';
+      countObserver.unobserve(entry.target);
     }
   });
 }, { threshold: 0.5 });
@@ -163,39 +201,32 @@ weatherTabs.forEach(tab => {
 const map = L.map('leaflet-map', { zoomControl: true, scrollWheelZoom: false }).setView([19.85, 105.7], 9);
 
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '© OpenStreetMap © CARTO',
+  attribution: '&copy; OpenStreetMap &copy; CARTO',
   maxZoom: 18
 }).addTo(map);
 
 const goldIcon = L.divIcon({
   className: '',
-  html: `<div style="
-    width:14px;height:14px;
-    background:var(--gold,#c9a84c);
-    border-radius:50%;
-    border:3px solid #fff;
-    box-shadow:0 0 0 4px rgba(201,168,76,0.35);
-  "></div>`,
+  html: '<div style="width:14px;height:14px;background:#c9a84c;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 4px rgba(201,168,76,0.35);"></div>',
   iconSize: [14, 14],
   iconAnchor: [7, 7],
   popupAnchor: [0, -12]
 });
 
 const locations = [
-  { lat: 20.0800, lng: 105.7851, name: 'Thành Nhà Hồ', tag: 'Di sản UNESCO' },
-  { lat: 19.7333, lng: 105.9000, name: 'Biển Sầm Sơn',  tag: 'Biển đẹp' },
-  { lat: 19.5800, lng: 105.4500, name: 'Vườn QG Bến En', tag: 'Thiên nhiên' },
-  { lat: 20.1200, lng: 105.4200, name: 'Lam Kinh',       tag: 'Lịch sử' },
+  { lat: 20.0800, lng: 105.7851, name: 'Thanh Nha Ho',  tag: 'Di san UNESCO' },
+  { lat: 19.7333, lng: 105.9000, name: 'Bien Sam Son',   tag: 'Bien dep' },
+  { lat: 19.5800, lng: 105.4500, name: 'VQG Ben En',     tag: 'Thien nhien' },
+  { lat: 20.1200, lng: 105.4200, name: 'Lam Kinh',       tag: 'Lich su' },
 ];
 
 const markers = locations.map(loc => {
   const marker = L.marker([loc.lat, loc.lng], { icon: goldIcon })
     .addTo(map)
-    .bindPopup(`<strong>${loc.name}</strong><br/><span style="color:var(--gold,#c9a84c)">${loc.tag}</span>`);
+    .bindPopup('<strong>' + loc.name + '</strong><br/><span style="color:#c9a84c">' + loc.tag + '</span>');
   return { marker, ...loc };
 });
 
-// Sidebar pins → fly to marker
 document.querySelectorAll('.map-pin').forEach((pin, i) => {
   pin.addEventListener('click', () => {
     document.querySelectorAll('.map-pin').forEach(p => p.classList.remove('active'));
