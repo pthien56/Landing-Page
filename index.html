@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thanh Hóa – Miền Đất Huyền Thoại</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+
+  <!-- PRELOADER -->
+  <div class="preloader" id="preloader">
+    <div class="preloader__inner">
+      <div class="preloader__logo">🏯</div>
+      <p class="preloader__text">Thanh Hóa</p>
+      <div class="preloader__bar"><div class="preloader__fill"></div></div>
+    </div>
+  </div>
+
+  <!-- NAV -->
+  <nav class="nav" id="navbar">
+    <div class="nav__logo" >🏯 Thanh Hóa</div>
+    <ul class="nav__menu" id="navMenu">
+      <li><a href="#hero">Trang chủ</a></li>
+      <li><a href="#story">Câu chuyện</a></li>
+      <li><a href="#highlights">Điểm đến</a></li>
+      <li><a href="#culture">Văn hóa</a></li>
+      <li><a href="#cta">Khám phá</a></li>
+    </ul>
+    <button class="nav__hamburger" id="hamburger" aria-label="Mở menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero__overlay"></div>
+    <div class="hero__content">
+      <p class="hero__eyebrow">Xứ Thanh – Nơi lịch sử còn thở</p>
+      <h1 class="hero__title">Thanh Hóa<br/><span>Miền Đất Huyền Thoại</span></h1>
+      <p class="hero__sub">Nơi núi rừng hùng vĩ gặp biển xanh bất tận — nơi mỗi tấc đất đều mang hơi thở ngàn năm lịch sử.</p>
+      <div class="hero__actions">
+        <a href="#story" class="btn btn--primary">Khám phá ngay</a>
+        <a href="#highlights" class="btn btn--ghost">Điểm đến nổi bật</a>
+      </div>
+    </div>
+    <div class="hero__scroll-hint">
+      <span>Cuộn xuống</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- STATS BAR -->
+  <section class="stats">
+    <div class="stats__grid">
+      <div class="stats__item" data-reveal="up" data-delay="1">
+        <strong>11,000+</strong>
+        <span>Năm lịch sử</span>
+      </div>
+      <div class="stats__item" data-reveal="up" data-delay="2">
+        <strong>102 km</strong>
+        <span>Bờ biển</span>
+      </div>
+      <div class="stats__item" data-reveal="up" data-delay="3">
+        <strong>27</strong>
+        <span>Huyện &amp; Thành phố</span>
+      </div>
+      <div class="stats__item" data-reveal="up" data-delay="4">
+        <strong>3.7 triệu</strong>
+        <span>Người dân</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY -->
+  <section class="story" id="story">
+    <div class="container">
+      <div class="section-label" data-reveal="up">Câu chuyện</div>
+      <h2 class="section-title" data-reveal="up" data-delay="1">Từ thuở hồng hoang<br/>đến hôm nay</h2>
+      <div class="story__timeline">
+        <div class="story__step" data-reveal="left">
+          <div class="story__step-icon">🌄</div>
+          <div class="story__step-body">
+            <h3>Mở đầu — Vùng đất của tổ tiên</h3>
+            <p>Hơn 11.000 năm trước, người Việt cổ đã chọn vùng đất Thanh Hóa làm nơi sinh sống. Nền văn hóa Đông Sơn nở rộ tại đây, để lại những trống đồng vang vọng qua thiên niên kỷ — minh chứng cho một nền văn minh rực rỡ bên dòng sông Mã.</p>
+          </div>
+        </div>
+        <div class="story__step" data-reveal="left" data-delay="1">
+          <div class="story__step-icon">⚔️</div>
+          <div class="story__step-body">
+            <h3>Phát triển — Đất phát đế vương</h3>
+            <p>Thanh Hóa là quê hương của nhiều triều đại lừng lẫy: nhà Lê với Lê Lợi khởi nghĩa Lam Sơn, nhà Nguyễn với Gia Long dựng nước. Thành Nhà Hồ — di sản UNESCO — vẫn đứng vững như lời nhắc nhở về một thời đại vàng son của kiến trúc và quyền lực.</p>
+          </div>
+        </div>
+        <div class="story__step" data-reveal="left" data-delay="2">
+          <div class="story__step-icon">🌊</div>
+          <div class="story__step-body">
+            <h3>Kết thúc — Thanh Hóa hôm nay</h3>
+            <p>Ngày nay, Thanh Hóa vươn mình mạnh mẽ: biển Sầm Sơn tấp nập du khách, Vườn quốc gia Bến En xanh mướt, khu kinh tế Nghi Sơn sôi động. Quá khứ hào hùng và hiện tại năng động hòa quyện, tạo nên một Thanh Hóa đầy sức sống.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HIGHLIGHTS -->
+  <section class="highlights" id="highlights">
+    <div class="container">
+      <div class="section-label" data-reveal="up">Điểm đến</div>
+      <h2 class="section-title" data-reveal="up" data-delay="1">Những nơi không thể bỏ lỡ</h2>
+      <div class="highlights__grid">
+        <div class="card card--featured" data-reveal="zoom">
+          <div class="card__img" style="background-image:url('https://baotanglichsu.vn/DataFiles/2025/05/News/Tieng%20Viet/21.5.2025/Khao%20co%20hoc%20tai%20Di%20san%20thanh%20nha%20Ho%20Giai%20ma%20dau%20tich%20kinh%20thanh%20da/1.jpg')"></div>
+          <div class="card__body">
+            <span class="card__tag">Di sản UNESCO</span>
+            <h3>Thành Nhà Hồ</h3>
+            <p>Tòa thành đá duy nhất còn nguyên vẹn ở Đông Nam Á, xây dựng năm 1397 — kỳ quan kiến trúc của triều Hồ.</p>
+            <a href="#cta" class="card__link">Tìm hiểu thêm →</a>
+          </div>
+        </div>
+        <div class="card" data-reveal="up" data-delay="1">
+          <div class="card__img" style="background-image:url('https://cdn.vntrip.vn/cam-nang/wp-content/uploads/2017/08/biensamson.jpg')"></div>
+          <div class="card__body">
+            <span class="card__tag">Biển đẹp</span>
+            <h3>Biển Sầm Sơn</h3>
+            <p>Bãi biển dài, sóng êm, nước trong — điểm nghỉ dưỡng lý tưởng của miền Bắc suốt hơn 100 năm qua.</p>
+            <a href="#cta" class="card__link">Tìm hiểu thêm →</a>
+          </div>
+        </div>
+        <div class="card" data-reveal="up" data-delay="2">
+          <div class="card__img" style="background-image:url('https://exotrails.com/wp-content/uploads/2026/02/be1.jpeg')"></div>
+          <div class="card__body">
+            <span class="card__tag">Thiên nhiên</span>
+            <h3>Vườn quốc gia Bến En</h3>
+            <p>Hồ nước xanh ngắt giữa rừng nguyên sinh — thiên đường cho những ai yêu thiên nhiên hoang dã.</p>
+            <a href="#cta" class="card__link">Tìm hiểu thêm →</a>
+          </div>
+        </div>
+        <div class="card" data-reveal="up" data-delay="3">
+          <div class="card__img" style="background-image:url('https://media.sohuutritue.net.vn/files/nguyenhue/2024/08/17/lam-kinh-thanh-hoa-0942.jpg')"></div>
+          <div class="card__body">
+            <span class="card__tag">Lịch sử</span>
+            <h3>Khu di tích Lam Kinh</h3>
+            <p>Nơi Lê Lợi dựng cờ khởi nghĩa, giải phóng đất nước khỏi ách đô hộ nhà Minh năm 1418.</p>
+            <a href="#cta" class="card__link">Tìm hiểu thêm →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CULTURE -->
+  <section class="culture" id="culture">
+    <div class="container">
+      <div class="culture__inner">
+        <div class="culture__text" data-reveal="left">
+          <div class="section-label">Văn hóa &amp; Ẩm thực</div>
+          <h2 class="section-title">Hương vị<br/>xứ Thanh</h2>
+          <p>Thanh Hóa không chỉ đẹp ở cảnh quan — mà còn đậm đà ở văn hóa. Từ điệu hò sông Mã da diết đến những món ăn dân dã khó quên.</p>
+          <ul class="culture__list">
+            <li data-reveal="left" data-delay="1">🍜 <strong>Nem chua Thanh Hóa</strong> — đặc sản nức tiếng cả nước</li>
+            <li data-reveal="left" data-delay="2">🎵 <strong>Hò sông Mã</strong> — di sản văn hóa phi vật thể</li>
+            <li data-reveal="left" data-delay="3">🏺 <strong>Làng nghề truyền thống</strong> — chiếu cói Nga Sơn, đúc đồng</li>
+            <li data-reveal="left" data-delay="4">🎭 <strong>Lễ hội Lam Kinh</strong> — tái hiện hào khí dựng nước</li>
+          </ul>
+        </div>
+        <div class="culture__visual" data-reveal="right">
+          <div class="culture__img-stack">
+            <div class="culture__img culture__img--1" style="background-image:url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&q=80')"></div>
+            <div class="culture__img culture__img--2" style="background-image:url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=500&q=80')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
+  <section class="map-section" id="map">
+    <div class="container">
+      <div class="section-label" data-reveal="up">Vị trí</div>
+      <h2 class="section-title" data-reveal="up" data-delay="1">Tìm đường đến<br/>xứ Thanh</h2>
+      <div class="map-section__inner" data-reveal="zoom">
+        <div id="leaflet-map"></div>
+        <div class="map-section__pins">
+          <div class="map-pin" data-lat="20.0800" data-lng="105.7851" data-name="Thành Nhà Hồ" data-tag="Di sản UNESCO">
+            <span class="map-pin__dot"></span>Thành Nhà Hồ
+          </div>
+          <div class="map-pin" data-lat="19.7333" data-lng="105.9000" data-name="Biển Sầm Sơn" data-tag="Biển đẹp">
+            <span class="map-pin__dot"></span>Biển Sầm Sơn
+          </div>
+          <div class="map-pin" data-lat="19.5800" data-lng="105.4500" data-name="Vườn QG Bến En" data-tag="Thiên nhiên">
+            <span class="map-pin__dot"></span>Vườn QG Bến En
+          </div>
+          <div class="map-pin" data-lat="20.1200" data-lng="105.4200" data-name="Lam Kinh" data-tag="Lịch sử">
+            <span class="map-pin__dot"></span>Lam Kinh
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WEATHER -->
+  <section class="weather" id="weather">
+    <div class="container">
+      <div class="section-label" data-reveal="up">Thời tiết</div>
+      <h2 class="section-title" data-reveal="up" data-delay="1">Mùa nào cũng<br/>có lý do để đến</h2>
+      <div class="weather__tabs" data-reveal="up" data-delay="2">
+        <button class="weather__tab active" data-season="spring">🌸 Xuân</button>
+        <button class="weather__tab" data-season="summer">☀️ Hạ</button>
+        <button class="weather__tab" data-season="autumn">🍂 Thu</button>
+        <button class="weather__tab" data-season="winter">❄️ Đông</button>
+      </div>
+      <div class="weather__panels">
+        <div class="weather__panel active" id="season-spring" data-reveal="up">
+          <div class="weather__icon">🌸</div>
+          <div class="weather__info">
+            <h3>Mùa Xuân (Tháng 2 – 4)</h3>
+            <p class="weather__temp">18°C – 25°C</p>
+            <p>Tiết trời mát mẻ, hoa nở rộ khắp nơi. Thời điểm lý tưởng để tham quan Lam Kinh, Thành Nhà Hồ và các lễ hội đầu năm truyền thống.</p>
+            <ul class="weather__tips">
+              <li>✅ Lý tưởng cho tham quan di tích</li>
+              <li>✅ Lễ hội Lam Kinh tháng 3</li>
+              <li>⚠️ Có thể có mưa phùn nhẹ</li>
+            </ul>
+          </div>
+        </div>
+        <div class="weather__panel" id="season-summer" data-reveal="up">
+          <div class="weather__icon">☀️</div>
+          <div class="weather__info">
+            <h3>Mùa Hạ (Tháng 5 – 8)</h3>
+            <p class="weather__temp">28°C – 38°C</p>
+            <p>Nắng nóng gay gắt nhưng biển Sầm Sơn, Hải Tiến tấp nập nhất năm. Mùa cao điểm du lịch biển với nhiều lễ hội sôi động.</p>
+            <ul class="weather__tips">
+              <li>✅ Mùa vàng du lịch biển</li>
+              <li>✅ Hải sản tươi ngon nhất</li>
+              <li>⚠️ Nắng nóng, cần kem chống nắng</li>
+            </ul>
+          </div>
+        </div>
+        <div class="weather__panel" id="season-autumn" data-reveal="up">
+          <div class="weather__icon">🍂</div>
+          <div class="weather__info">
+            <h3>Mùa Thu (Tháng 9 – 11)</h3>
+            <p class="weather__temp">22°C – 30°C</p>
+            <p>Khí hậu dịu mát, bầu trời trong xanh. Thời điểm tuyệt vời để khám phá Bến En, trekking rừng núi và thưởng thức ẩm thực mùa thu.</p>
+            <ul class="weather__tips">
+              <li>✅ Đẹp nhất để chụp ảnh</li>
+              <li>✅ Trekking Bến En lý tưởng</li>
+              <li>⚠️ Tháng 9-10 có thể có bão</li>
+            </ul>
+          </div>
+        </div>
+        <div class="weather__panel" id="season-winter" data-reveal="up">
+          <div class="weather__icon">❄️</div>
+          <div class="weather__info">
+            <h3>Mùa Đông (Tháng 12 – 1)</h3>
+            <p class="weather__temp">12°C – 20°C</p>
+            <p>Trời se lạnh, không khí trong lành. Thời điểm yên tĩnh để khám phá văn hóa, thưởng thức nem chua nóng hổi và các món đặc sản mùa đông.</p>
+            <ul class="weather__tips">
+              <li>✅ Ít khách, giá tốt hơn</li>
+              <li>✅ Ẩm thực mùa đông đặc sắc</li>
+              <li>⚠️ Mang áo ấm khi đi buổi tối</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section" id="cta">
+    <div class="cta-section__overlay"></div>
+    <div class="cta-section__content" data-reveal="zoom">
+      <p class="cta-section__eyebrow">Sẵn sàng chưa?</p>
+      <h2>Hãy để Thanh Hóa<br/>kể câu chuyện của mình</h2>
+      <p>Một chuyến đi, ngàn ký ức. Đặt chân đến xứ Thanh — nơi lịch sử, thiên nhiên và con người hòa làm một.</p>
+      <div class="cta-section__actions">
+        <a href="mailto:info@thanhhoatourism.vn" class="btn btn--primary btn--lg">Liên hệ ngay</a>
+        <a href="tel:+842373000000" class="btn btn--ghost btn--lg">📞 Gọi tư vấn</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand" data-reveal="up">
+          <div class="footer__logo">🏯 Thanh Hóa</div>
+          <p>Miền đất huyền thoại — nơi lịch sử và thiên nhiên giao thoa.</p>
+        </div>
+        <div class="footer__links" data-reveal="up" data-delay="1">
+          <h4>Khám phá</h4>
+          <ul>
+            <li><a href="#story">Câu chuyện</a></li>
+            <li><a href="#highlights">Điểm đến</a></li>
+            <li><a href="#culture">Văn hóa</a></li>
+          </ul>
+        </div>
+        <div class="footer__links" data-reveal="up" data-delay="2">
+          <h4>Liên hệ</h4>
+          <ul>
+            <li><a href="#">Facebook</a></li>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="mailto:info@thanhhoatourism.vn">Email</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 Thanh Hóa Tourism. Tất cả quyền được bảo lưu.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="back-to-top" id="backToTop" aria-label="Về đầu trang">↑</button>
+
+  <!-- COOKIE BANNER -->
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-banner__inner">
+      <span>🍪 Trang web sử dụng cookie để cải thiện trải nghiệm của bạn.</span>
+      <div class="cookie-banner__actions">
+        <button class="cookie-btn cookie-btn--accept" id="cookieAccept">Chấp nhận</button>
+        <button class="cookie-btn cookie-btn--decline" id="cookieDecline">Từ chối</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
