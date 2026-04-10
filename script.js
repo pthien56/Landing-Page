@@ -1,33 +1,15 @@
-// ===== NAV: scroll effect + auto hide =====
+// ===== NAV: scroll effect  =====
 const navbar = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
-let lastScrollY = 0;
-
 window.addEventListener('scroll', () => {
   const currentY = window.scrollY;
-
-  // Luon hien o trang dau
-  if (currentY < 80) {
-    navbar.classList.remove('scrolled', 'nav--hidden');
-    lastScrollY = currentY;
-    return;
+  if (currentY > 80) {
+    navbar.classList.add('scrolled');
+  } else {
+    navbar.classList.remove('scrolled');
   }
-
-  navbar.classList.add('scrolled');
-
-  if (currentY > lastScrollY + 8) {
-    // Scroll xuong -> an navbar (tru khi menu dang mo)
-    if (!navMenu.classList.contains('open')) {
-      navbar.classList.add('nav--hidden');
-    }
-  } else if (currentY < lastScrollY - 8) {
-    // Scroll len -> hien navbar
-    navbar.classList.remove('nav--hidden');
-  }
-
-  lastScrollY = currentY;
 });
 
 let scrollYBeforeMenu = 0;
@@ -188,21 +170,101 @@ cookieDecline.addEventListener('click', () => dismissCookie('declined'));
 const weatherTabs = document.querySelectorAll('.weather__tab');
 const weatherPanels = document.querySelectorAll('.weather__panel');
 
-weatherTabs.forEach(tab => {
+function setWeatherTab(index) {
+  weatherTabs.forEach(t => t.classList.remove('active'));
+  weatherPanels.forEach(p => p.classList.remove('active'));
+  weatherTabs[index].classList.add('active');
+  const season = weatherTabs[index].dataset.season;
+  document.getElementById(`season-${season}`).classList.add('active');
+}
+
+weatherTabs.forEach((tab, i) => {
   tab.addEventListener('click', () => {
-    weatherTabs.forEach(t => t.classList.remove('active'));
-    weatherPanels.forEach(p => p.classList.remove('active'));
-    tab.classList.add('active');
-    document.getElementById(`season-${tab.dataset.season}`).classList.add('active');
+    setWeatherTab(i);
+    resetWeatherTimer();
   });
 });
 
+// ===== CONTACT FORM =====
+const contactForm = document.getElementById('contactForm');
+const formNote = document.getElementById('formNote');
+const toast = document.getElementById('toast');
+const toastClose = document.getElementById('toastClose');
+
+function showToast() {
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 5000);
+}
+
+toastClose && toastClose.addEventListener('click', () => toast.classList.remove('show'));
+
+if (contactForm) {
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = contactForm.querySelector('.contact-form__submit');
+    btn.textContent = 'Đang gửi...';
+    btn.disabled = true;
+
+    const data = new FormData(contactForm);
+
+    try {
+      const res = await fetch('https://formspree.io/f/xreowvyj', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        showToast();
+        contactForm.reset();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      formNote.textContent = '❌ Có lỗi xảy ra. Vui lòng email trực tiếp: phucthien3156@gmail.com';
+      formNote.style.color = '#eb5757';
+    }
+
+    btn.textContent = 'Gửi tin nhắn ';
+    btn.disabled = false;
+  });
+}
+
+// ===== CULTURE LIST IMAGE SWITCH =====
+const cultureItems = document.querySelectorAll('.culture__item');
+const cultureImg1 = document.getElementById('cultureImg1');
+const cultureImg2 = document.getElementById('cultureImg2');
+
+function switchCultureImages(img1Url, img2Url) {
+  [cultureImg1, cultureImg2].forEach(img => {
+    img.style.opacity = '0';
+  });
+  setTimeout(() => {
+    cultureImg1.style.backgroundImage = `url('${img1Url}')`;
+    cultureImg2.style.backgroundImage = `url('${img2Url}')`;
+    [cultureImg1, cultureImg2].forEach(img => {
+      img.style.opacity = '1';
+    });
+  }, 250);
+}
+
+cultureItems.forEach(item => {
+  item.addEventListener('click', () => {
+    cultureItems.forEach(i => i.classList.remove('active'));
+    item.classList.add('active');
+    switchCultureImages(item.dataset.img1, item.dataset.img2);
+  });
+});
+
+if (cultureItems.length > 0) {
+  cultureItems[0].click(); 
+}
 // ===== LEAFLET MAP =====
 const map = L.map('leaflet-map', { zoomControl: true, scrollWheelZoom: false }).setView([19.85, 105.7], 9);
 
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-  attribution: '&copy; OpenStreetMap &copy; CARTO',
-  maxZoom: 18
+L.tileLayer('https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
+  attribution: '&copy; Google Maps',
+  maxZoom: 20
 }).addTo(map);
 
 const goldIcon = L.divIcon({
